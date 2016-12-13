@@ -1,0 +1,22 @@
+---
+# tasks file for linux bridge
+
+- name: make sure variable is set
+  fail: msg="please set variable linux_bridge_bridge_name and linux_bridge_device_name"
+  when: linux_bridge_bridge_name is not defined and linux_bridge_device_name is not defined
+
+- name: check if {{ linux_bridge_bridge_name }} exists
+  shell: ip l show {{ linux_bridge_bridge_name }}
+  register: bridge_existed
+  ignore_errors: true
+  become: true
+
+- name: linux bridge configuration on CentOS
+  include: centos.yml
+  when: (ansible_os_family == "RedHat" or ansible_os_family == "CentOS") and bridge_existed|failed
+  become: true
+
+- name: linux bridge configuration on Ubuntu
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian" and bridge_existed|failed
+
