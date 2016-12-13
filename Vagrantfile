@@ -17,7 +17,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vagrant2.vm.network "private_network", ip: "192.168.168.202"
 
         # On CentOS7, you should restart network to take effect of ip address; but you need not to do this on ubuntu-16.10
-        # 如果一个config里面定义了多个provision,并且执行顺序会影响到结果,需要使用preserve_order: true让provision按照代码里给定的顺序运行。
+
+        # set preserve_order to true in order to execute as I wish.
         vagrant2.vm.provision "restart-network", type: "shell", preserve_order: true, inline: "sudo systemctl restart network"
 
         vagrant2.vm.provision "ansible" do |ansible|
