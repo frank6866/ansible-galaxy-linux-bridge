@@ -28,7 +28,7 @@ Playbook:
 
 - hosts: servers
   roles:
-     - { role: frank6866.linux-bridge }
+     - { role: frank6866.linux_bridge }
 
 ```
 
