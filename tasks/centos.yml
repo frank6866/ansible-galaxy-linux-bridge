@@ -2,6 +2,7 @@
 
 - name: stop and disable NetworkManager
   service: name=NetworkManager state=stopped enabled=no
+  ignore_errors: True
 
 - name: install bridge-utils
   yum: name=bridge-utils state=present
@@ -12,7 +13,7 @@
 
 - name: delete IPADDR in {{ linux_bridge_device_name }}
   lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-{{ linux_bridge_device_name }}
-              regexp="^(IPADDR|NETMASK|GATEWAY)"  state=absent
+              regexp="^(IPADDR|NETMASK|GATEWAY)"  state=absent backup=yes
 
 - name: add BRIDGE in {{ linux_bridge_device_name }}
   lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-{{ linux_bridge_device_name }}

@@ -7,10 +7,10 @@ TYPE=Bridge
 IPADDR={{  hostvars[inventory_hostname]['ansible_'+linux_bridge_device_name].ipv4.address }}
 NETMASK={{  hostvars[inventory_hostname]['ansible_'+linux_bridge_device_name].ipv4.netmask }}
 
+{% if hostvars[inventory_hostname]['ansible_'+linux_bridge_device_name].ipv4.address == hostvars[inventory_hostname].ansible_default_ipv4.address %}
 # if the device is not the default device, then this bridge does not need gateway.
 # else the device is the default device, then set the gateway as default gateway
-{% if hostvars[inventory_hostname]['ansible_'+linux_bridge_device_name].ipv4.address == hostvars[inventory_hostname].ansible_default_ipv4.address %}
-# GATEWAY={{ hostvars[inventory_hostname].ansible_default_ipv4.gateway }}
+GATEWAY={{ hostvars[inventory_hostname].ansible_default_ipv4.gateway }}
 {% endif %}
 
 MACADDR={{  hostvars[inventory_hostname]['ansible_'+linux_bridge_device_name].macaddress }}
